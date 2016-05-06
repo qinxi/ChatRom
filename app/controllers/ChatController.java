@@ -42,6 +42,7 @@ public class ChatController extends Controller {
             // For each event received on the socket,
             in.onMessage((m) -> {
                 outMap.forEach((id,out1)->{
+                    if (out==out1) return;
                     out1.write(String.format("%s:%s",name,m));
                 });
             });
