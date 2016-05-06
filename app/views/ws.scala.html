@@ -10,17 +10,25 @@
         <script src="@routes.Assets.versioned("javascripts/jquery.min.js")" type="text/javascript"></script>
     </head>
     <body>
-        <input id="name" /> <input type="button" onclick="content()"> hah</button>
+        <input id="name" placeholder="输入名字"/> <input id="button" type="button" onclick="content()" value="上线">
         <input id="socket-input"/>
         <div id="socket-messages"></div>
         <div id="users"></div>
     </body>
     <script>
-        var WS = window['MozWebSocket'] ? window['MozWebSocket'] : WebSocket;
+            var socket;
+            var WS = window['MozWebSocket'] ? window['MozWebSocket'] : WebSocket;
         function content(){
             var name = $('#name').val();
+            if (!$.trim(name)){
+                alert("输入昵称");
+                return;
+            }
+            $('#name').remove();
+            $('#button').remove();
+
             // open pewpew with websocket
-            var socket = new WS('ws://localhost:9000/ws'+'?name='+name);
+            socket = new WS('ws://localhost:9000/ws'+'?name='+name);
 
             var writeMessages = function(event){
                 $('#socket-messages').prepend('<p>'+event.data+'</p>');
